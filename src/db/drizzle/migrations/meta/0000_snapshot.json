@@ -1,0 +1,812 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "clientes": {
+      "name": "clientes",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "autoincrement": false,
+          "name": "nome",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cpf": {
+          "autoincrement": false,
+          "name": "cpf",
+          "type": "varchar(11)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefone": {
+          "autoincrement": false,
+          "name": "telefone",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "atualizado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "onUpdate": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "clientes_id": {
+          "name": "clientes_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "cpf_UNIQUE": {
+          "name": "cpf_UNIQUE",
+          "columns": [
+            "cpf"
+          ]
+        },
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "historico_status_ordem_servico": {
+      "name": "historico_status_ordem_servico",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_anterior": {
+          "autoincrement": false,
+          "name": "status_anterior",
+          "type": "enum('EM_ELABORAÇÃO','AGUARDANDO_APROVAÇÃO','APROVADO','EM_EXECUÇÃO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "novo_status": {
+          "autoincrement": false,
+          "name": "novo_status",
+          "type": "enum('EM_ELABORAÇÃO','AGUARDANDO_APROVAÇÃO','APROVADO','EM_EXECUÇÃO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "observacao": {
+          "autoincrement": false,
+          "name": "observacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden_servico_id": {
+          "autoincrement": false,
+          "name": "orden_servico_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usuario_id": {
+          "autoincrement": false,
+          "name": "usuario_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "historico_status_ordem_servico_id": {
+          "name": "historico_status_ordem_servico_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "fk_historico_status_ordem_servico_ordens_servico1_idx": {
+          "name": "fk_historico_status_ordem_servico_ordens_servico1_idx",
+          "columns": [
+            "orden_servico_id"
+          ],
+          "isUnique": false
+        },
+        "fk_historico_status_ordem_servico_usuarios1_idx": {
+          "name": "fk_historico_status_ordem_servico_usuarios1_idx",
+          "columns": [
+            "usuario_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "fk_historico_status_ordem_servico_ordens_servico1": {
+          "name": "fk_historico_status_ordem_servico_ordens_servico1",
+          "tableFrom": "historico_status_ordem_servico",
+          "tableTo": "ordens_servico",
+          "columnsFrom": [
+            "orden_servico_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "fk_historico_status_ordem_servico_usuarios1": {
+          "name": "fk_historico_status_ordem_servico_usuarios1",
+          "tableFrom": "historico_status_ordem_servico",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ordens_servico": {
+      "name": "ordens_servico",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('EM_ELABORAÇÃO','AGUARDANDO_APROVAÇÃO','APROVADO','EM_EXECUÇÃO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao_problema": {
+          "autoincrement": false,
+          "name": "descricao_problema",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "observacao": {
+          "autoincrement": false,
+          "name": "observacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valor_total": {
+          "default": "'0.00'",
+          "autoincrement": false,
+          "name": "valor_total",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "atualizado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "onUpdate": true
+        },
+        "usuario_id": {
+          "autoincrement": false,
+          "name": "usuario_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cliente_id": {
+          "autoincrement": false,
+          "name": "cliente_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "veiculo_id": {
+          "autoincrement": false,
+          "name": "veiculo_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "ordens_servico_id": {
+          "name": "ordens_servico_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "fk_ordens_servico_usuarios1_idx": {
+          "name": "fk_ordens_servico_usuarios1_idx",
+          "columns": [
+            "usuario_id"
+          ],
+          "isUnique": false
+        },
+        "fk_ordens_servico_cliente1_idx": {
+          "name": "fk_ordens_servico_cliente1_idx",
+          "columns": [
+            "cliente_id"
+          ],
+          "isUnique": false
+        },
+        "fk_ordens_servico_veiculos1_idx": {
+          "name": "fk_ordens_servico_veiculos1_idx",
+          "columns": [
+            "veiculo_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "fk_ordens_servico_cliente1": {
+          "name": "fk_ordens_servico_cliente1",
+          "tableFrom": "ordens_servico",
+          "tableTo": "clientes",
+          "columnsFrom": [
+            "cliente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "fk_ordens_servico_usuarios1": {
+          "name": "fk_ordens_servico_usuarios1",
+          "tableFrom": "ordens_servico",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "fk_ordens_servico_veiculos1": {
+          "name": "fk_ordens_servico_veiculos1",
+          "tableFrom": "ordens_servico",
+          "tableTo": "veiculos",
+          "columnsFrom": [
+            "veiculo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "ordens_servico_itens": {
+      "name": "ordens_servico_itens",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipo": {
+          "autoincrement": false,
+          "name": "tipo",
+          "type": "enum('SERVIÇOS PRESTADO','PEÇAS')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "autoincrement": false,
+          "name": "descricao",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantidade": {
+          "autoincrement": false,
+          "name": "quantidade",
+          "type": "decimal(10,3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_unitario": {
+          "autoincrement": false,
+          "name": "valor_unitario",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_total": {
+          "autoincrement": false,
+          "name": "valor_total",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden_servico_id": {
+          "autoincrement": false,
+          "name": "orden_servico_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "ordens_servico_itens_id": {
+          "name": "ordens_servico_itens_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "fk_ordens_servico_itens_ordens_servico1_idx": {
+          "name": "fk_ordens_servico_itens_ordens_servico1_idx",
+          "columns": [
+            "orden_servico_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "fk_ordens_servico_itens_ordens_servico1": {
+          "name": "fk_ordens_servico_itens_ordens_servico1",
+          "tableFrom": "ordens_servico_itens",
+          "tableTo": "ordens_servico",
+          "columnsFrom": [
+            "orden_servico_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "tokens_acesso_publico": {
+      "name": "tokens_acesso_publico",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "autoincrement": false,
+          "name": "token",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usado_em": {
+          "autoincrement": false,
+          "name": "usado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expira_em": {
+          "autoincrement": false,
+          "name": "expira_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden_servico_id": {
+          "autoincrement": false,
+          "name": "orden_servico_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "tokens_acesso_publico_id": {
+          "name": "tokens_acesso_publico_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "fk_tokens_acesso_publico_ordens_servico1_idx": {
+          "name": "fk_tokens_acesso_publico_ordens_servico1_idx",
+          "columns": [
+            "orden_servico_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "fk_tokens_acesso_publico_ordens_servico1": {
+          "name": "fk_tokens_acesso_publico_ordens_servico1",
+          "tableFrom": "tokens_acesso_publico",
+          "tableTo": "ordens_servico",
+          "columnsFrom": [
+            "orden_servico_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {
+        "token_UNIQUE": {
+          "name": "token_UNIQUE",
+          "columns": [
+            "token"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "usuarios": {
+      "name": "usuarios",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome": {
+          "autoincrement": false,
+          "name": "nome",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "senha_hash": {
+          "autoincrement": false,
+          "name": "senha_hash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "perfil": {
+          "autoincrement": false,
+          "name": "perfil",
+          "type": "enum('ADMIN','OPERADOR')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ativo": {
+          "default": 1,
+          "autoincrement": false,
+          "name": "ativo",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "atualizado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "onUpdate": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "usuarios_id": {
+          "name": "usuarios_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "veiculos": {
+      "name": "veiculos",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "placa": {
+          "autoincrement": false,
+          "name": "placa",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "marca": {
+          "autoincrement": false,
+          "name": "marca",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "modelo": {
+          "autoincrement": false,
+          "name": "modelo",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ano": {
+          "autoincrement": false,
+          "name": "ano",
+          "type": "varchar(9)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cor": {
+          "autoincrement": false,
+          "name": "cor",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "quilometragem": {
+          "autoincrement": false,
+          "name": "quilometragem",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "criado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "criado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "atualizado_em": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "atualizado_em",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "onUpdate": true
+        },
+        "cliente_id": {
+          "autoincrement": false,
+          "name": "cliente_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "veiculos_id": {
+          "name": "veiculos_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "fk_veiculos_cliente_idx": {
+          "name": "fk_veiculos_cliente_idx",
+          "columns": [
+            "cliente_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "fk_veiculos_cliente": {
+          "name": "fk_veiculos_cliente",
+          "tableFrom": "veiculos",
+          "tableTo": "clientes",
+          "columnsFrom": [
+            "cliente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {
+        "placa_UNIQUE": {
+          "name": "placa_UNIQUE",
+          "columns": [
+            "placa"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {
+      "clientes": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          },
+          "atualizado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "historico_status_ordem_servico": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "ordens_servico": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          },
+          "atualizado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "ordens_servico_itens": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "tokens_acesso_publico": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "usuarios": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          },
+          "atualizado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "veiculos": {
+        "columns": {
+          "criado_em": {
+            "isDefaultAnExpression": true
+          },
+          "atualizado_em": {
+            "isDefaultAnExpression": true
+          }
+        }
+      }
+    },
+    "indexes": {}
+  }
+}

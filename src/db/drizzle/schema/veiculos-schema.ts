@@ -2,7 +2,7 @@ import { index, int, mysqlTable, primaryKey, timestamp, unique, varchar } from "
 import {clientes} from './clientes-schema'
 
 export const veiculos = mysqlTable("veiculos", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     placa: varchar({ length: 7 }).notNull(),
     marca: varchar({ length: 50 }).notNull(),
     modelo: varchar({ length: 50 }).notNull(),
@@ -15,6 +15,5 @@ export const veiculos = mysqlTable("veiculos", {
 },
 (table) => [
     index("fk_veiculos_cliente_idx").on(table.clienteId),
-    primaryKey({ columns: [table.id], name: "veiculos_id"}),
-    unique("placa_UNIQUE").on(table.placa),
+    unique("placa_UNIQUE").on(table.placa)
 ]);

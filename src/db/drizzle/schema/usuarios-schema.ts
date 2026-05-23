@@ -1,7 +1,7 @@
 import { int, mysqlEnum, mysqlTable, primaryKey, timestamp, tinyint, unique, varchar } from "drizzle-orm/mysql-core";
 
 export const usuarios = mysqlTable("usuarios", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     nome: varchar({ length: 255 }).notNull(),
     email: varchar({ length: 255 }).notNull(),
     senhaHash: varchar("senha_hash", { length: 255 }).notNull(),
@@ -11,6 +11,5 @@ export const usuarios = mysqlTable("usuarios", {
     atualizadoEm: timestamp("atualizado_em", { mode: 'string' }).defaultNow().onUpdateNow().notNull(),
 },
 (table) => [
-    primaryKey({ columns: [table.id], name: "usuarios_id"}),
-    unique("email_UNIQUE").on(table.email),
+    unique("email_UNIQUE").on(table.email)
 ]);

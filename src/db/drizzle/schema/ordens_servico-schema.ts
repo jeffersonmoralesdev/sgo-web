@@ -4,7 +4,7 @@ import {clientes} from './clientes-schema';
 import {veiculos} from './veiculos-schema';
 
 export const ordensServico = mysqlTable("ordens_servico", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     status: mysqlEnum(['EM_ELABORACAO','AGUARDANDO_APROVACAO','APROVADO','EM_EXECUCAO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO']).notNull(),
     descricaoProblema: text("descricao_problema").notNull(),
     observacao: text(),
@@ -18,6 +18,5 @@ export const ordensServico = mysqlTable("ordens_servico", {
 (table) => [
     index("fk_ordens_servico_usuarios1_idx").on(table.usuarioId),
     index("fk_ordens_servico_cliente1_idx").on(table.clienteId),
-    index("fk_ordens_servico_veiculos1_idx").on(table.veiculoId),
-    primaryKey({ columns: [table.id], name: "ordens_servico_id"}),
+    index("fk_ordens_servico_veiculos1_idx").on(table.veiculoId)
 ]);

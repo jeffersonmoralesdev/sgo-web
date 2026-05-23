@@ -2,7 +2,7 @@ import { decimal, index, int, mysqlEnum, mysqlTable, primaryKey, timestamp, varc
 import {ordensServico} from './ordens_servico-schema'
 
 export const ordensServicoItens = mysqlTable("ordens_servico_itens", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     tipo: mysqlEnum(['PECA','SERVICO','MAO_DE_OBRA']).notNull(),
     descricao: varchar({ length: 255 }).notNull(),
     quantidade: decimal({ precision: 10, scale: 3 }).notNull(),
@@ -12,6 +12,5 @@ export const ordensServicoItens = mysqlTable("ordens_servico_itens", {
     ordemServicoId: int("ordem_servico_id").notNull().references(() => ordensServico.id),
 },
 (table) => [
-    index("fk_ordens_servico_itens_ordens_servico1_idx").on(table.ordemServicoId),
-    primaryKey({ columns: [table.id], name: "ordens_servico_itens_id"}),
+    index("fk_ordens_servico_itens_ordens_servico1_idx").on(table.ordemServicoId)
 ]);

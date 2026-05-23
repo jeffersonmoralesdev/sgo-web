@@ -2,7 +2,7 @@
 import { int, mysqlTable, primaryKey, timestamp, unique, varchar } from "drizzle-orm/mysql-core";
 
 export const clientes = mysqlTable("clientes", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     nome: varchar({ length: 255 }).notNull(),
     cpf: varchar({ length: 11 }).notNull(),
     telefone: varchar({ length: 20 }).notNull(),
@@ -11,7 +11,6 @@ export const clientes = mysqlTable("clientes", {
     atualizadoEm: timestamp("atualizado_em", { mode: 'string' }).defaultNow().onUpdateNow().notNull(),
 },
 (table) => [
-    primaryKey({ columns: [table.id], name: "clientes_id"}),
     unique("cpf_UNIQUE").on(table.cpf),
-    unique("email_UNIQUE").on(table.email),
+    unique("email_UNIQUE").on(table.email)
 ]);

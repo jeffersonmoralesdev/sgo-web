@@ -2,7 +2,7 @@ import { index, int, mysqlEnum, mysqlTable, primaryKey, text, timestamp } from "
 import {usuarios} from './usuarios-schema'
 import {ordensServico} from './ordens_servico-schema'
 export const historicoStatusOrdemServico = mysqlTable("historico_status_ordem_servico", {
-    id: int().autoincrement().notNull(),
+    id: int().primaryKey().autoincrement().notNull(),
     statusAnterior: mysqlEnum("status_anterior", ['EM_ELABORACAO','AGUARDANDO_APROVACAO','APROVADO','EM_EXECUCAO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO']),
     novoStatus: mysqlEnum("novo_status", ['EM_ELABORACAO','AGUARDANDO_APROVACAO','APROVADO','EM_EXECUCAO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO']).notNull(),
     observacao: text(),
@@ -12,6 +12,5 @@ export const historicoStatusOrdemServico = mysqlTable("historico_status_ordem_se
 },
 (table) => [
     index("fk_historico_status_ordem_servico_ordens_servico1_idx").on(table.ordemServicoId),
-    index("fk_historico_status_ordem_servico_usuarios1_idx").on(table.usuarioId),
-    primaryKey({ columns: [table.id], name: "historico_status_ordem_servico_id"}),
+    index("fk_historico_status_ordem_servico_usuarios1_idx").on(table.usuarioId)
 ]);

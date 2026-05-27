@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, primaryKey, timestamp, tinyint, unique, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, timestamp, tinyint, unique, varchar } from "drizzle-orm/mysql-core";
 
 export const usuarios = mysqlTable("usuarios", {
     id: int().primaryKey().autoincrement().notNull(),

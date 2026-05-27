@@ -1,0 +1,13 @@
+import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/model/veiculo/veiculo-model";
+
+export interface VeiculoRepository{
+    listarVeiculos():Promise<VeiculoModel[]>;
+    buscarVeiculoPorId(id:number):Promise<VeiculoModel | null>;
+    buscarVeiculoPorPlaca(placa:string):Promise<VeiculoModel|null>
+    registrarVeiculo(veiculo:CreateVeiculoInput):Promise<VeiculoModel>
+    atualizarVeiculo(id:number, veiculo:UpdateVeiculoInput):Promise<VeiculoModel | null>;
+    deletarVeiculo(id: number): Promise<boolean>;
+}
+
+    
+    

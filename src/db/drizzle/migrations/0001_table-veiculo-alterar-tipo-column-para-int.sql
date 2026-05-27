@@ -1,0 +1,1 @@
+ALTER TABLE `veiculos` MODIFY COLUMN `ano` int NOT NULL;

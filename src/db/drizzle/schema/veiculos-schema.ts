@@ -6,7 +6,7 @@ export const veiculos = mysqlTable("veiculos", {
     placa: varchar({ length: 7 }).notNull(),
     marca: varchar({ length: 50 }).notNull(),
     modelo: varchar({ length: 50 }).notNull(),
-    ano: varchar({ length: 9 }).notNull(),
+    ano: int().notNull(),
     cor: varchar({ length: 50 }),
     quilometragem: int().notNull(),
     criadoEm: timestamp("criado_em", { mode: 'string' }).defaultNow().notNull(),

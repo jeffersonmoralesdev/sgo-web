@@ -2,7 +2,7 @@ import z from "zod";
 
 export const createUsuarioSchema = z.object({
     nome: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
-    email: z.email("Email inválido"),
+    email: z.email("Email inválido").trim().toLowerCase(),
     senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
     perfil:z.string().trim().
         transform((perfil) => perfil.toUpperCase()).

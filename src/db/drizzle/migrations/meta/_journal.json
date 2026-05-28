@@ -15,6 +15,13 @@
       "when": 1779845534913,
       "tag": "0001_table-veiculo-alterar-tipo-column-para-int",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1779972606697,
+      "tag": "0002_table-usuarios-alterar-tipo-column-ativo-de-tinyint-para-boolean",
+      "breakpoints": true
     }
   ]
 }

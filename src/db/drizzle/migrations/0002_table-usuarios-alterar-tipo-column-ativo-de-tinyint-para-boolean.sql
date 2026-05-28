@@ -1,0 +1,1 @@
+ALTER TABLE `usuarios` MODIFY COLUMN `ativo` boolean NOT NULL DEFAULT true;

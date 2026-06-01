@@ -41,6 +41,14 @@ export type UpdateUsuarioRepositoryInput = Partial<{
     ativo: boolean;
 }>
 
+export type UsuarioResponse = {
+  id: number;
+  nome: string;
+  email: string;
+  perfil: string;
+  ativo: boolean;
+};
+
 
 
  

@@ -1,8 +1,8 @@
-import { CreateUsuarioRepositoryInput, UpdateUsuarioInput, UpdateUsuarioRepositoryInput, UsuarioModel } from "@/src/model/usuario/usuario-model";
+import { CreateUsuarioRepositoryInput, UpdateUsuarioRepositoryInput, UsuarioModel, UsuarioResponse } from "@/src/model/usuario/usuario-model";
 
 export interface UsuarioRepository {
-    listarTodosUsuarios():Promise<UsuarioModel[]>;
-    listarUsuariosAtivos():Promise<UsuarioModel[]>;
+    listarTodosUsuarios():Promise<UsuarioResponse[]>;
+    listarUsuariosAtivos():Promise<UsuarioResponse[]>;
     buscarUsuarioPorId(id:number):Promise<UsuarioModel | null>;
     buscarUsuarioPorEmail(email:string):Promise<UsuarioModel|null>
     registrarUsuario(usuario:CreateUsuarioRepositoryInput):Promise<UsuarioModel>

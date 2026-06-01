@@ -1,11 +1,18 @@
 'use server'
-import { CreateUsuarioInput, UpdateUsuarioInput, UsuarioModel } from "@/src/model/usuario/usuario-model";
+import { CreateUsuarioInput, PerfilUsuario, UpdateUsuarioInput, UsuarioResponse } from "@/src/model/usuario/usuario-model";
 import { usuarioService } from "@/src/services/usuario";
 import { ActionResponse } from "@/src/types/action-response";
 import { createUsuarioSchema, idUsuarioSchema, updateUsuarioInputSchema } from "@/src/validator/usuario/usuario-validator";
 import z from "zod";
 
-export async function registrarUsuarioAction(newUsuario:CreateUsuarioInput):Promise<ActionResponse<UsuarioModel>>{
+export async function registrarUsuarioAction(_prevState:ActionResponse , formData:FormData):Promise<ActionResponse<UsuarioResponse>>{
+     const newUsuario:CreateUsuarioInput={
+        nome:String(formData.get("nome")),
+        email:String(formData.get("email")),
+        senha:String(formData.get("senha")),
+        perfil:formData.get("perfil") as PerfilUsuario
+    };
+
     const validationUsuario = createUsuarioSchema.safeParse(newUsuario);
     if(!validationUsuario.success){
         return{
@@ -30,7 +37,7 @@ export async function registrarUsuarioAction(newUsuario:CreateUsuarioInput):Prom
     }
 }
 
-export async function atualizarUsuarioAction(id:number,updateUsuario:UpdateUsuarioInput):Promise<ActionResponse<UsuarioModel>>{
+export async function atualizarUsuarioAction(id:number,updateUsuario:UpdateUsuarioInput):Promise<ActionResponse<UsuarioResponse>>{
     const validationId = idUsuarioSchema.safeParse(id);
     if(!validationId.success){
         return{

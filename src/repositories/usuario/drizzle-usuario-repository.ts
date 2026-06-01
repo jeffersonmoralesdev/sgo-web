@@ -1,16 +1,28 @@
-import { UsuarioModel, CreateUsuarioInput, UpdateUsuarioInput, CreateUsuarioRepositoryInput, UpdateUsuarioRepositoryInput } from "@/src/model/usuario/usuario-model";
+import { UsuarioModel, CreateUsuarioRepositoryInput, UpdateUsuarioRepositoryInput, UsuarioResponse } from "@/src/model/usuario/usuario-model";
 import { UsuarioRepository } from "./usuario-repository";
 import { usuarios } from "@/src/db/drizzle/schema";
 import { db } from "@/src/db/drizzle";
 import { eq } from "drizzle-orm";
 
 export class DrizzleUsuarioRepository implements UsuarioRepository{
-    async listarTodosUsuarios(): Promise<UsuarioModel[]> {
-        return await db.select().from(usuarios); 
+    async listarTodosUsuarios(): Promise<UsuarioResponse[]> {
+        return await db.select({
+            id: usuarios.id,
+            nome: usuarios.nome,
+            email: usuarios.email,
+            perfil: usuarios.perfil,
+            ativo: usuarios.ativo,
+        }).from(usuarios); 
     }
     
-    async listarUsuariosAtivos(): Promise<UsuarioModel[]> {
-        return await db.select().from(usuarios).where(eq(usuarios.ativo, true)); 
+    async listarUsuariosAtivos(): Promise<UsuarioResponse[]> {
+        return await db.select({
+            id: usuarios.id,
+            nome: usuarios.nome,
+            email: usuarios.email,
+            perfil: usuarios.perfil,
+            ativo: usuarios.ativo,
+        }).from(usuarios).where(eq(usuarios.ativo, true)); 
     }
     
     async buscarUsuarioPorId(id: number): Promise<UsuarioModel | null> {

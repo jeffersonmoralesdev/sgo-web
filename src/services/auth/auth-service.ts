@@ -1,3 +1,4 @@
+import { AuthError } from "@/src/errors/auth-error";
 import { LoginInput, LoginResponse } from "@/src/model/auth/auth-model";
 import { UsuarioRepository } from "@/src/repositories/usuario/usuario-repository";
 import { comparePassword } from "@/src/utils/senha-hash";
@@ -7,10 +8,10 @@ export class AuthService {
 
     async login(data: LoginInput): Promise<LoginResponse> {
         const usuario = await this.usuarioRepository.buscarUsuarioPorEmail(data.email);
-        if (!usuario) throw new Error("Email ou senha inválidos");
+        if (!usuario) throw new AuthError();
 
         const senhaValidada = await comparePassword(data.senha, usuario.senhaHash);
-        if (!senhaValidada) throw new Error("Email ou senha inválidos");
+        if (!senhaValidada) throw new AuthError();
 
         return {
             id: usuario.id,

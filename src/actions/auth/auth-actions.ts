@@ -1,4 +1,5 @@
 "use server";
+import { AuthError } from "@/src/errors/auth-error";
 import { createSessao, destroySessao } from "@/src/lib/auth/session";
 import { LoginInput} from "@/src/model/auth/auth-model";
 import { authService } from "@/src/services/auth/index";
@@ -18,7 +19,9 @@ export async function loginAction(_prevState: ActionResponse, formData:FormData)
     if (!validationLogin.success) {
         return {
             success: false,
-            errors: z.flattenError(validationLogin.error).fieldErrors        };
+            errors: z.flattenError(validationLogin.error).fieldErrors,
+            status:"ERROR",
+        };
     }
     
     try {
@@ -28,7 +31,8 @@ export async function loginAction(_prevState: ActionResponse, formData:FormData)
     } catch (error) {
         return {
             success: false,
-            errors: error instanceof Error ? error.message : "Erro inesperado ao realizar login.",
+            errors: error instanceof AuthError ? error.message : "Erro inesperado ao realizar login.",
+            status:"ERROR",
         };
     }
     redirect("/")     

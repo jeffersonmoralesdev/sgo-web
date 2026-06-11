@@ -1,18 +1,25 @@
-export type ClienteModel={
+export type ClienteModel = {
     id: number;
     nome: string;
     cpf: string;
-    telefone: string ;
+    telefone: string;
     email: string;
+    ativo: boolean;
     criadoEm: string;
     atualizadoEm: string;
 }
 
-export type CreateClienteInput={
+export type CreateClienteInput = {
     nome: string;
     cpf: string;
-    telefone: string ;
+    telefone: string;
     email: string;
 }
 
-export type UpdateClienteInput = Partial<CreateClienteInput>
+export type UpdateClienteInput = Partial<{
+    nome: string;
+    cpf: string;
+    telefone: string;
+    email: string;
+    ativo: boolean;
+}>

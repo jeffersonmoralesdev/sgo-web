@@ -31,7 +31,7 @@ export default async function ClientePage({ searchParams }: ClientesPageProps) {
                 ? (
                     <ErrorListagem titulo="Erro ao carregar clientes" error={error ?? "Não foi possível carregar os clientes no momento."} />
                 ) : (
-                    <TabelaCliente clientes={data?.clientes ?? []} paramsFiltro={filtro} />
+                    <TabelaCliente clientes={data?.clientes ?? []} isAdmin={data?.isAdmin ?? false} paramsFiltro={filtro} />
                 )
             }
         </div>

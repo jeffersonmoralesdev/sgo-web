@@ -1,4 +1,10 @@
+'use client'
 import { UserRound } from "lucide-react";
+import { AcoesCliente } from "../acoes-cliente";
+import { useRouter } from "next/navigation";
+import { alternarStatusClienteAction, deletarClienteAction} from "@/src/actions/cliente/cliente-actions";
+import { ActionResponse } from "@/src/types/action-response";
+
 
 type Cliente = {
     id: number;
@@ -11,9 +17,27 @@ type Cliente = {
 
 type LinhaClienteProps = {
     cliente: Cliente;
+    isAdmin: boolean;
+    onTratarRespostaAction: (response: ActionResponse, titulo: string) => void;
 
 };
-export function LinhaTabelaCliente({ cliente }: LinhaClienteProps) {
+export function LinhaTabelaCliente({ cliente, isAdmin, onTratarRespostaAction }: LinhaClienteProps) {
+    const router = useRouter();
+    async function alternarStatus() {
+        const response = await alternarStatusClienteAction(cliente.id);
+        onTratarRespostaAction(response, "Status do cliente")
+
+    }
+
+    async function deletarCliente() {
+        const response = await deletarClienteAction(cliente.id);
+        onTratarRespostaAction(response, "Exclusão de cliente")
+
+    }
+
+    async function editarCliente() {
+        router.push(`/clientes/editar/${cliente.id}`);
+    }
     return (
         <tr className={`
             flex flex-col gap-4 border-b border-slate-100 p-4 transition-colors md:table-row md:border-b-0 md:border-t md:p-0
@@ -44,6 +68,19 @@ export function LinhaTabelaCliente({ cliente }: LinhaClienteProps) {
             <td className="p-0 text-slate-600 md:px-5 md:py-4 md:table-cell">
                 <span className="font-semibold text-slate-800 md:hidden">E-mail: </span>
                 {cliente.email}
+            </td>
+
+            <td className="p-0 md:px-5 md:py-4 md:table-cell">
+                <div className="flex gap-2 md:justify-end">
+                    <AcoesCliente
+                        ativo={Boolean(cliente.ativo)}
+                        isAdmin={isAdmin}
+                        onEdit={editarCliente}
+                        onInativar={alternarStatus}
+                        onAtivar={alternarStatus}
+                        onExcluir={deletarCliente}
+                    />
+                </div>
             </td>
         </tr>
     )

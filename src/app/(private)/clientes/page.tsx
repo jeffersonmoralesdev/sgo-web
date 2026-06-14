@@ -1,7 +1,8 @@
 import { TabelaCliente } from "@/src/components/private/cliente/tabela-cliente";
 import { ErrorListagem } from "@/src/components/private/error-listagem";
 import { HeaderPage } from "@/src/components/private/header-page";
-import { listarClientesQuery } from "@/src/queries/cliente/cliente-queries";
+import { ToastPorUrl } from "@/src/components/private/toast-por-url";
+import { listarClientesQuery } from "@/src/queries/cliente";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -9,15 +10,16 @@ type ClientesPageProps = {
     searchParams: Promise<{
         filtro?: string;
         toast?: string;
-    }>
+    }>;
 }
 export default async function ClientePage({ searchParams }: ClientesPageProps) {
-    const { filtro } = await searchParams;
+    const { filtro, toast } = await searchParams;
 
     const { data, status, error } = await listarClientesQuery(filtro);
 
     return (
         <div className="space-y-6">
+            <ToastPorUrl parametroToast={toast} />
             <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <HeaderPage titulo="Clientes" descricao="Gerencie os clientes cadastrados na oficina." />
                 <Link href={"/clientes/cadastro"}

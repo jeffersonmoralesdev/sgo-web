@@ -5,13 +5,18 @@ import { QueryResponse } from "@/src/types/query-response";
 import { redirect } from "next/navigation";
 
 
-type ListarClientesData = {
+type ListaClientesResponseQuery = {
     clientes: ClienteModel[];
     isAdmin?: boolean;
 }
-export async function listarClientesQuery(busca?: string): Promise<QueryResponse<ListarClientesData>> {
+
+type ClienteResponseQuery = {
+    cliente?: ClienteModel;
+    isAdmin?: boolean;
+}
+export async function listarClientesQuery(busca?: string): Promise<QueryResponse<ListaClientesResponseQuery>> {
     const sessao = await getSessao();
-    if (!sessao) redirect("/login?motivo=sessao-expirada");
+    if (!sessao) redirect("/login?toast=sessao-expirada");
 
     try {
         const clientes = await clienteService.listarClientes(busca);
@@ -22,11 +27,41 @@ export async function listarClientesQuery(busca?: string): Promise<QueryResponse
         }
 
     } catch (error) {
-        console.log("Erro ao listar clientes:", error)
+        console.log("listarClientesQuery: Erro ao listar clientes:", error)
         return {
             success: false,
             data: { clientes: [] },
             error: "Não foi possível carregar os clientes no momento, tente novamente em instantes.",
+            status: "ERROR",
+        }
+    }
+}
+
+export async function buscarClientePorIdQuery(id: number): Promise<QueryResponse<ClienteResponseQuery>> {
+    const sessao = await getSessao();
+    if (!sessao) redirect("/login?toast=sessao-expirada");
+
+    try {
+        const cliente = await clienteService.buscarClientePorId(id);
+        if (!cliente) {
+            return {
+                success: false,
+                data: { isAdmin: sessao.perfil === "ADMIN" },
+                error: "Não foi possivel encontrar o cliente informado, verifique os dados e tente novamente.",
+                status: "ERROR",
+            }
+        }
+        return {
+            success: true,
+            data: { cliente: cliente, isAdmin: sessao.perfil === "ADMIN" },
+            status: "SUCCESS",
+        }
+
+    } catch (error) {
+        console.log("buscarClientePorIdQuery: Erro ao buscar cliente por id:", error)
+        return {
+            success: false,
+            error: "Não foi possível carregar os dados do cliente informado no momento, tente novamente em instantes.",
             status: "ERROR",
         }
     }

@@ -5,6 +5,7 @@ import { Eye, Lock, Mail } from "lucide-react";
 
 import { ActionResponse } from "@/src/types/action-response";
 import { loginAction } from "@/src/actions/auth/auth-actions";
+import { ToastPorUrl } from "@/src/components/private/toast-por-url";
 
 const initialState: ActionResponse = {
   success: false,
@@ -24,6 +25,7 @@ export function FormLogin() {
   const geralError = typeof state.errors === "string" ? state.errors : null;
 
   return (
+
     <form action={formAction} className="space-y-6">
       {geralError && (
         <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
@@ -101,9 +103,9 @@ export function FormLogin() {
         { /*<Link
           href="/esqueci-senha"
           className="text-base font-medium text-blue-700 hover:underline"
-        >
+          >
           Esqueceu a senha?
-        </Link>*/}
+          </Link>*/}
       </div>
       <div className="border-t border-slate-200 pt-8 text-center">
         <p className="text-sm font-medium text-slate-700">

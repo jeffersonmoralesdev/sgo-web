@@ -16,7 +16,7 @@ export async function proxy(request: NextRequest) {
 
     if (!rotaPublica) {
         if (!tokenValido) {
-            const response = NextResponse.redirect(new URL("/login", request.url));
+            const response = NextResponse.redirect(new URL("/login?toast=sessao-expirada", request.url));
             if (tokenCookie) {
                 response.cookies.delete("sessao");
             }

@@ -8,8 +8,8 @@ if (!chaveSecreta) {
     throw new Error("AUTH_SECRET não configurada.");
 }
 
-const TEMPO_SESSAO_SEGUNDOS = 1 * 60 * 60 * 24;
-const TEMPO_SESSAO_JWT = "24h";
+const TEMPO_SESSAO_SEGUNDOS = 1 * 60 * 60 * 15;
+const TEMPO_SESSAO_JWT = "12h";
 
 const encodeKey = new TextEncoder().encode(chaveSecreta);
 
@@ -76,5 +76,4 @@ export async function validarSessao(token: string): Promise<boolean> {
 export async function destroySessao(): Promise<void> {
     const cookieStore = await cookies();
     cookieStore.delete("sessao");
-
 }

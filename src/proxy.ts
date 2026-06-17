@@ -1,26 +1,33 @@
 import { NextResponse, MiddlewareConfig, NextRequest } from "next/server";
 import { validarSessao } from "./lib/auth/session";
+
 const rotasPublicas = [
     { path: "/login", quandoAutenticada: "redirect" },
 ];
 
 export async function proxy(request: NextRequest) {
-    if (request.method !== "GET") {
-        return NextResponse.next();
-    }
+
     const rotaAtual = request.nextUrl.pathname;
     const rotaPublica = rotasPublicas.find(rota => rota.path === rotaAtual);
 
     const tokenCookie = request.cookies.get("sessao")?.value;
     const tokenValido = tokenCookie ? await validarSessao(tokenCookie) : false
+    const isGet = request.method === "GET";
 
     if (!rotaPublica) {
         if (!tokenValido) {
-            const response = NextResponse.redirect(new URL("/login?toast=sessao-expirada", request.url));
-            if (tokenCookie) {
-                response.cookies.delete("sessao");
+            if (isGet) {
+                const loginUrl = new URL("/login", request.url);
+                if (tokenCookie) {
+                    loginUrl.searchParams.set("toast", "sessao-expirada");
+                }
+                const response = NextResponse.redirect(loginUrl);
+                if (tokenCookie) {
+                    response.cookies.delete("sessao");
+                }
+                return response
             }
-            return response;
+            return NextResponse.redirect(new URL("/login", request.url));
         } else {
             return NextResponse.next();
         }

@@ -5,9 +5,10 @@ import { useState, useTransition } from "react";
 
 type FiltroListaProps = {
     paramsFiltro?: string;
+    placeHolder:string;
 }
 
-export function FiltroLista({ paramsFiltro = "" }: FiltroListaProps) {
+export function FiltroLista({ paramsFiltro = "", placeHolder }: FiltroListaProps) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const pathName = usePathname();
@@ -37,7 +38,7 @@ export function FiltroLista({ paramsFiltro = "" }: FiltroListaProps) {
                 type="text"
                 value={filtro}
                 onChange={(event) => atualizarFiltro(event.target.value)}
-                placeholder="Buscar cliente..."
+                placeholder={`Buscar ${placeHolder}...`}
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400 sm:w-64"
             />
             {isPending && (

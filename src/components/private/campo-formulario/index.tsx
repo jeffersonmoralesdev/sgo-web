@@ -9,8 +9,24 @@ type CampoFormularioprops = {
     error?: string;
     icon: LucideIcon;
     onChange: (value: string) => void;
+    rightIcon?: LucideIcon;
+    onClickChangeRightIcon?: () => void;
+    rightIconLabel?: string;
 }
-export function CampoFormulario({ label, name, type = "text", value, placeholder, error, icon: Icon, onChange }: CampoFormularioprops) {
+
+export function CampoFormulario({
+    label,
+    name,
+    type = "text",
+    value,
+    placeholder,
+    error,
+    icon: Icon,
+    onChange,
+    rightIcon: RightIcon,
+    onClickChangeRightIcon,
+    rightIconLabel
+}: CampoFormularioprops) {
     return (
         <div>
             <label
@@ -29,9 +45,20 @@ export function CampoFormulario({ label, name, type = "text", value, placeholder
                     type={type}
                     value={value}
                     onChange={(event) => onChange(event.target.value)}
-                    className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+                    className={`min-w-0 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 ${RightIcon ? "pr-9" : ""} `}
                     placeholder={placeholder}
                 />
+
+                {RightIcon && onClickChangeRightIcon && (
+                    <button
+                        type="button"
+                        onClick={onClickChangeRightIcon}
+                        aria-label={rightIconLabel}
+                        className="shrink-0 text-slate-400 transition hover:text-slate-700 hover:cursor-pointer"
+                    >
+                        <RightIcon size={18} />
+                    </button>
+                )}
             </div>
 
             {error && (

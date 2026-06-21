@@ -14,8 +14,8 @@ export const createVeiculoSchema = z.object({
             return placaAntiga.test(placaLimpa) || placaMercosul.test(placaLimpa);
 
         },"Placa do veiculo inválida."),
-    marca:z.string().min(2,"A marca do veículo deve ter pelo menos 2 caracteres"),
-    modelo:z.string().min(2,"O modelo do veículo deve ter pelo menos 2 caracteres"),
+    marca:z.string().toLowerCase().min(2,"A marca do veículo deve ter pelo menos 2 caracteres"),
+    modelo:z.string().toLowerCase().min(2,"O modelo do veículo deve ter pelo menos 2 caracteres"),
     ano:z.preprocess((value)=> value === "" ? undefined: value,
         z.coerce.number({error:"Informe o ano do veículo"}).
         int("O ano deve ser um número inteiro").
@@ -24,6 +24,7 @@ export const createVeiculoSchema = z.object({
     cor:z.preprocess((value)=> value === "" ? undefined : value,
         z.string().
         trim().
+        toLowerCase().
         min(2,"A cor deve ter pelo menos 2 caracteres").
         max(30, "A cor deve ter no máximo 30 caracteres").
         optional()),

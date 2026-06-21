@@ -68,7 +68,7 @@ export function TabelaCliente({ clientes, paramsFiltro = "", isAdmin }: Clientes
                         nome="cliente"
                         existeFiltro={existeFiltro}
                         paramsFiltro={paramsFiltro} />
-                    <FiltroLista paramsFiltro={paramsFiltro} />
+                    <FiltroLista paramsFiltro={paramsFiltro} placeHolder="cliente" />
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-left text-sm flex flex-col md:table">

@@ -3,7 +3,7 @@ import { HeaderPage } from "@/src/components/private/header-page";
 import { ToastPorUrl } from "@/src/components/private/toast-por-url";
 import { FormularioVeiculo } from "@/src/components/private/veiculo/formulario-veiculo";
 import { listarClientesQuery } from "@/src/queries/cliente";
-import { buscarVeiculoPorIdQuery } from "@/src/queries/veiculo/veiculo-queries";
+import { buscarVeiculoPorIdQuery } from "@/src/queries/veiculo";
 import { notFound } from "next/navigation";
 
 type EditarVeiculoPageProps = {

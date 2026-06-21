@@ -2,7 +2,7 @@ import { ErrorListagem } from "@/src/components/private/error-listagem";
 import { HeaderPage } from "@/src/components/private/header-page";
 import { ToastPorUrl } from "@/src/components/private/toast-por-url";
 import { TabelaVeiculo } from "@/src/components/private/veiculo/tabela-veiculo";
-import { listarVeiculosQuery } from "@/src/queries/veiculo/veiculo-queries";
+import { listarVeiculosQuery } from "@/src/queries/veiculo";
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -15,7 +15,7 @@ type VeiculosPageProps = {
 }
 export default async function VeiculosPage({ searchParams }: VeiculosPageProps) {
     const { filtro, toast } = await searchParams;
-    
+
     const { data, status, error } = await listarVeiculosQuery(filtro);
 
     return (

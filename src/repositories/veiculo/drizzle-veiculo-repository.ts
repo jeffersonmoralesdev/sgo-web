@@ -2,12 +2,40 @@ import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/mode
 import { VeiculoRepository } from "./veiculo-repository";
 import { db } from "@/src/db/drizzle";
 import { veiculos } from "@/src/db/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { asc, desc, eq, like, or, SQL } from "drizzle-orm";
 
 export class DrizzleVeiculoRepository implements VeiculoRepository {
 
-    async listarVeiculos(): Promise<VeiculoModel[]> {
-        return await db.select().from(veiculos);
+    async listarVeiculos(busca?: string): Promise<VeiculoModel[]> {
+
+        const buscaLimpa = busca?.trim().toLowerCase();
+        if (!buscaLimpa) {
+            console.log("entrou aqui")
+            return await db.select().from(veiculos).orderBy(desc(veiculos.id));
+        }
+
+        const filtros: SQL[] = [];
+
+        const placaNormalizada = buscaLimpa
+            .replace(/[^A-Za-z0-9]/g, "")
+            .toUpperCase();
+
+        filtros.push(
+            like(veiculos.placa, `%${placaNormalizada}%`),
+            like(veiculos.marca, `%${buscaLimpa}%`),
+            like(veiculos.modelo, `%${buscaLimpa}%`),
+            like(veiculos.cor, `%${buscaLimpa}%`),
+        );
+
+        const buscaNumerica = /^\d+$/.test(buscaLimpa) ? Number(buscaLimpa) : null;
+
+        if (buscaNumerica !== null) {
+            filtros.push(
+                eq(veiculos.ano, buscaNumerica),
+                eq(veiculos.quilometragem, buscaNumerica),
+            );
+        }
+        return await db.select().from(veiculos).where(or(...filtros)).orderBy(asc(veiculos.modelo));
     }
 
     async buscarVeiculoPorId(id: number): Promise<VeiculoModel | null> {
@@ -42,9 +70,8 @@ export class DrizzleVeiculoRepository implements VeiculoRepository {
         return await this.buscarVeiculoPorId(id);
     }
 
-    async deletarVeiculo(id: number): Promise<boolean> {
+    async deletarVeiculo(id: number): Promise<void> {
         await db.delete(veiculos).where(eq(veiculos.id, id));
-        return true;
     }
 
 }

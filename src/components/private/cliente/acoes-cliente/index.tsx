@@ -18,39 +18,45 @@ export function AcoesCliente({
     onExcluir }: AcoesClienteProps) {
     return (
         <div className="flex gap-2 md:justify-end">
-            {ativo ? (
-                <>
-                    <BotaoDeAcao
-                        icon={Pencil}
-                        label="Editar"
-                        variant="default"
-                        onClick={onEdit}
-                    />
-
-                    <BotaoDeAcao
-                        icon={UserX}
-                        label="Inativar"
-                        variant="warning"
-                        onClick={onInativar}
-                    />
-                </>) : (
-                <>
-                    <BotaoDeAcao
-                        icon={UserCheck}
-                        label="Ativar"
-                        variant="success"
-                        onClick={onAtivar}
-                    />
-                    {isAdmin &&
+            {ativo
+                ? (
+                    <>
                         <BotaoDeAcao
-                            icon={Trash2}
-                            label="Excluir"
-                            variant="danger"
-                            onClick={onExcluir}
+                            icon={Pencil}
+                            label="Editar"
+                            variant="default"
+                            onClick={onEdit}
                         />
-                    }
-                </>
-            )}
+                        {isAdmin &&
+                            <BotaoDeAcao
+                                icon={UserX}
+                                label="Inativar"
+                                variant="warning"
+                                onClick={onInativar}
+                            />
+                        }
+                    </>)
+                : (
+                    <>
+                        {isAdmin &&
+                            (<>
+                                <BotaoDeAcao
+                                    icon={UserCheck}
+                                    label="Ativar"
+                                    variant="success"
+                                    onClick={onAtivar}
+                                />
+
+                                <BotaoDeAcao
+                                    icon={Trash2}
+                                    label="Excluir"
+                                    variant="danger"
+                                    onClick={onExcluir}
+                                />
+                            </>)
+                        }
+                    </>
+                )}
         </div>
     )
 

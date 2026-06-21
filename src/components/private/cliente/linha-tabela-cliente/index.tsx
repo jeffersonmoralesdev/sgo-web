@@ -4,6 +4,7 @@ import { AcoesCliente } from "../acoes-cliente";
 import { useRouter } from "next/navigation";
 import { alternarStatusClienteAction, deletarClienteAction} from "@/src/actions/cliente/cliente-actions";
 import { ActionResponse } from "@/src/types/action-response";
+import { aplicarMascaraTelefone, mascararCpfParcial } from "@/src/utils/mascara";
 
 
 type Cliente = {
@@ -57,12 +58,12 @@ export function LinhaTabelaCliente({ cliente, isAdmin, onTratarRespostaAction }:
 
             <td className="p-0 text-slate-600 md:px-5 md:py-4 md:table-cell">
                 <span className="font-semibold text-slate-800 md:hidden">CPF: </span>
-                {cliente.cpf}
+                {mascararCpfParcial(cliente.cpf)}
             </td>
 
             <td className="p-0 text-slate-600 md:px-5 md:py-4 md:table-cell">
                 <span className="font-semibold text-slate-800 md:hidden">Telefone: </span>
-                {cliente.telefone}
+                {aplicarMascaraTelefone(cliente.telefone)}
             </td>
 
             <td className="p-0 text-slate-600 md:px-5 md:py-4 md:table-cell">

@@ -18,12 +18,13 @@ type ModoFormulario = "cadastro" | "edicao";
 type FormularioClienteProps = {
     modo: ModoFormulario;
     cliente?: ClienteModel;
+    paramsRetorno?:string;
 }
 const initialState: ActionResponse<ClienteModel> = {
     success: false,
 };
 
-export function FormularioCliente({ modo, cliente }: FormularioClienteProps) {
+export function FormularioCliente({ modo, cliente, paramsRetorno }: FormularioClienteProps) {
     const router = useRouter();
 
     const isEdicao = modo === "edicao";
@@ -55,6 +56,10 @@ export function FormularioCliente({ modo, cliente }: FormularioClienteProps) {
     useEffect(() => {
         if (state?.status === "SUCCESS") {
             const toast = isEdicao ? "cliente-atualizado" : "cliente-cadastrado";
+            if(paramsRetorno){
+                router.push(`${paramsRetorno}?toast=${toast}`);  
+                return  
+            }
             router.push(`/clientes?toast=${toast}`);
         }
     }, [state?.status, router, isEdicao]);

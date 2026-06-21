@@ -139,6 +139,14 @@ export async function alternarStatusClienteAction(id: number): Promise<ActionRes
     const sessao = await verificarSessaoAction();
     if (!sessao) return respostaSessaoExpiradaAction();
 
+    if (sessao.perfil !== "ADMIN") {
+        return {
+            success: false,
+            errors: "Você não tem permissão para alterar status de clientes.",
+            status: "ERROR",
+        }
+    }
+
     const validationId = idClienteSchema.safeParse(id);
     if (!validationId.success) {
         return {

@@ -1,8 +1,8 @@
 import { ClienteModel, CreateClienteInput, UpdateClienteInput } from "@/src/model/cliente/cliente-model";
 import { ClienteRepository } from "./cliente-repository";
 import { db } from "@/src/db/drizzle";
-import { clientes } from "@/src/db/drizzle/schema";
-import { asc, eq, like, or } from "drizzle-orm";
+import { clientes, veiculos } from "@/src/db/drizzle/schema";
+import { asc, count, eq, like, or } from "drizzle-orm";
 
 export class DrizzleClienteRepository implements ClienteRepository {
 
@@ -61,6 +61,11 @@ export class DrizzleClienteRepository implements ClienteRepository {
 
     async deletarCliente(id: number): Promise<void> {
         await db.delete(clientes).where(eq(clientes.id, id));
+    }
+
+    async contarTotalClientes(): Promise<number> {
+        const result = await db.select({total:count()}).from(clientes);
+        return result[0]?.total ?? 0;
     }
 
 }

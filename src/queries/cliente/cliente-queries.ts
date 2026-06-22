@@ -66,3 +66,26 @@ export async function buscarClientePorIdQuery(id: number): Promise<QueryResponse
         }
     }
 }
+
+export async function contarTotalClientesQuery(): Promise<QueryResponse<number>> {
+    const sessao = await getSessao();
+    if (!sessao) redirect("/login?toast=sessao-expirada");
+
+    try {
+        const totalClientes = await clienteService.contarTotalClientes();
+        return {
+            success: true,
+            data: totalClientes,
+            status: "SUCCESS",
+        }
+
+    } catch (error) {
+        console.log("contarTotalClientesQuery:: Erro ao buscar total clíentes cadastrado:", error)
+        return {
+            success: false,
+            data:0,
+            error: "Não foi possível carregar total de clíentes cadastrado no momento, tente novamente em instantes.",
+            status: "ERROR",
+        }
+    }
+}

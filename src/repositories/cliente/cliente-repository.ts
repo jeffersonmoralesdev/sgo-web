@@ -8,4 +8,5 @@ export interface ClienteRepository{
     registrarCliente(cliente:CreateClienteInput):Promise<ClienteModel>;
     atualizarCliente(id:number, cliente:UpdateClienteInput):Promise<ClienteModel | null>;
     deletarCliente(id: number): Promise<void>;
+    contarTotalClientes():Promise<number>;
 }

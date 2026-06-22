@@ -88,4 +88,9 @@ export class ClienteService {
         const novoStatus = !clienteExistente.ativo
         return await this.atualizarCliente(id, { ativo: novoStatus })
     };
+
+    async contarTotalClientes(): Promise<number> {
+        return await this.clienteRepository.contarTotalClientes();
+
+    }
 }

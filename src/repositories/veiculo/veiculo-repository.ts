@@ -8,4 +8,5 @@ export interface VeiculoRepository {
     registrarVeiculo(veiculo: CreateVeiculoInput): Promise<VeiculoModel>;
     atualizarVeiculo(id: number, veiculo: UpdateVeiculoInput): Promise<VeiculoModel | null>;
     deletarVeiculo(id: number): Promise<void>;
+    contarTotalVeiculos():Promise<number>;
 }

@@ -72,4 +72,7 @@ export class VeiculoService {
         return true
     }
 
+    async contarTotalVeiculos(): Promise<number> {
+        return await this.veiculoRepository.contarTotalVeiculos();
+    };
 }

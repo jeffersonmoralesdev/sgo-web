@@ -1,5 +1,5 @@
 import { getSessao } from "@/src/lib/auth/session";
-import { VeiculoModel} from "@/src/model/veiculo/veiculo-model";
+import { VeiculoModel } from "@/src/model/veiculo/veiculo-model";
 import { veiculoService } from "@/src/services/veiculo";
 import { QueryResponse } from "@/src/types/query-response";
 import { redirect } from "next/navigation";
@@ -58,10 +58,33 @@ export async function buscarVeiculoPorIdQuery(id: number): Promise<QueryResponse
         }
 
     } catch (error) {
-        console.log("buscarVeiculoPorIdQuery: Erro ao buscar veículo por id:", error)
+        console.log("buscarVeiculoPorIdQuery:: Erro ao buscar veículo por id:", error)
         return {
             success: false,
             error: "Não foi possível carregar os dados do veículo informado no momento, tente novamente em instantes.",
+            status: "ERROR",
+        }
+    }
+}
+
+export async function contarTotalVeiculosQuery(): Promise<QueryResponse<number>> {
+    const sessao = await getSessao();
+    if (!sessao) redirect("/login?toast=sessao-expirada");
+
+    try {
+        const totalVeiculos = await veiculoService.contarTotalVeiculos();
+        return {
+            success: true,
+            data: totalVeiculos,
+            status: "SUCCESS",
+        }
+
+    } catch (error) {
+        console.log("contarTotalVeiculosQuery:: Erro ao buscar total veículo cadastrado:", error)
+        return {
+            success: false,
+            data:0,
+            error: "Não foi possível carregar total de veículo cadastrado no momento, tente novamente em instantes.",
             status: "ERROR",
         }
     }

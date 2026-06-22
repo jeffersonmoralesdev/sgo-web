@@ -2,7 +2,7 @@ import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/mode
 import { VeiculoRepository } from "./veiculo-repository";
 import { db } from "@/src/db/drizzle";
 import { veiculos } from "@/src/db/drizzle/schema";
-import { asc, desc, eq, like, or, SQL } from "drizzle-orm";
+import { asc, count, desc, eq, like, or, SQL } from "drizzle-orm";
 
 export class DrizzleVeiculoRepository implements VeiculoRepository {
 
@@ -73,5 +73,11 @@ export class DrizzleVeiculoRepository implements VeiculoRepository {
     async deletarVeiculo(id: number): Promise<void> {
         await db.delete(veiculos).where(eq(veiculos.id, id));
     }
+
+    async contarTotalVeiculos(): Promise<number> {
+        const result = await db.select({ total: count() }).from(veiculos);
+        return result[0]?.total ?? 0;
+    }
+
 
 }

@@ -3,8 +3,8 @@ import {usuarios} from './usuarios-schema'
 import {ordensServico} from './ordens_servico-schema'
 export const historicoStatusOrdemServico = mysqlTable("historico_status_ordem_servico", {
     id: int().primaryKey().autoincrement().notNull(),
-    statusAnterior: mysqlEnum("status_anterior", ['EM_ELABORACAO','AGUARDANDO_APROVACAO','APROVADO','EM_EXECUCAO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO']),
-    novoStatus: mysqlEnum("novo_status", ['EM_ELABORACAO','AGUARDANDO_APROVACAO','APROVADO','EM_EXECUCAO','FINALIZADO','ENTREGUE','REPROVADO','ENCERRADO']).notNull(),
+    statusAnterior: mysqlEnum("status_anterior", ['AGUARDANDO_AVALIACAO','EM_AVALIACAO','AGUARDANDO_APROVACAO','APROVADA','REPROVADA','EM_EXECUCAO','PRONTA_PARA_RETIRADA','ENTREGUE','CANCELADA']),
+    novoStatus: mysqlEnum("novo_status", ['AGUARDANDO_AVALIACAO','EM_AVALIACAO','AGUARDANDO_APROVACAO','APROVADA','REPROVADA','EM_EXECUCAO','PRONTA_PARA_RETIRADA','ENTREGUE','CANCELADA']).notNull(),
     observacao: text(),
     criadoEm: timestamp("criado_em", { mode: 'string' }).defaultNow().notNull(),
     ordemServicoId: int("ordem_servico_id").notNull(),

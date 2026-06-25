@@ -29,6 +29,13 @@
       "when": 1781134870675,
       "tag": "0003_adiciona-column-ativo-na-tabela-clientes",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1782245846651,
+      "tag": "0004_altera-status-ordem-servico",
+      "breakpoints": true
     }
   ]
 }

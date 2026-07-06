@@ -13,7 +13,7 @@ export default async function PrivateLayout({
     if (!sessao) redirect("/login");
 
     return (
-        <div className="min-h-screen bg-slate-100 text-slate-950 lg:flex">
+        <div className="min-h-screen bg-slate-100 text-slate-950 xl:flex">
             <Sidebar />
 
             <div className="min-w-0 flex-1">

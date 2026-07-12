@@ -29,3 +29,11 @@ export function aplicarMascaraTelefone(value: string) {
         .replace(/(\d{2})(\d)/, "($1) $2")
         .replace(/(\d{5})(\d)/, "$1-$2");
 }
+
+export function aplicarMascaraPlaca(placa: string) {
+    return placa
+        .replace(/[^A-Za-z0-9]/g, "")
+        .toUpperCase()
+        .slice(0, 7)
+        .replace(/^([A-Z]{3})([A-Z0-9]+)$/, "$1-$2");
+}

@@ -30,9 +30,23 @@ export type CreateOrdemServicoRepository = {
 }
 
 export type UpdateStatusOrdemServico = {
-  id: number;
-  usuarioId: number;
-  statusAnterior: StatusOrdemServico;
-  statusNovo: StatusOrdemServico;
-  observacao?: string | null;
-};
+    id: number;
+    usuarioId: number;
+    statusAnterior: StatusOrdemServico;
+    statusNovo: StatusOrdemServico;
+    observacao?: string | null;
+}
+
+export type ListagemOrdemServico = {
+    id: number;
+    status: StatusOrdemServico;
+    criadoEm: string;
+    veiculo: {
+        placa: string;
+        modelo: string;
+    };
+    cliente: {
+        id: number;
+        nome: string;
+    };
+}

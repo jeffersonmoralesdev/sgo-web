@@ -1,18 +1,54 @@
-import { CreateOrdemServicoRepository, OrdemServicoModel, UpdateStatusOrdemServico } from "@/src/model/ordens-servico/ordens-servico-model";
+import { CreateOrdemServicoRepository, ListagemOrdemServico, OrdemServicoModel, UpdateStatusOrdemServico } from "@/src/model/ordens-servico/ordens-servico-model";
 import { OrdemServicoRepository } from "./ordens-servico-repository";
 import { db } from "@/src/db/drizzle";
-import { historicoStatusOrdemServico, ordensServico } from "@/src/db/drizzle/schema";
-import { and, eq, inArray } from "drizzle-orm";
-
-
-
+import { clientes, historicoStatusOrdemServico, ordensServico, veiculos } from "@/src/db/drizzle/schema";
+import { and, desc, eq, inArray, like, or, SQL } from "drizzle-orm";
 
 export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
-    
+
+    async listarOrdensServico(busca?: string): Promise<ListagemOrdemServico[]> {
+
+        const baseSelect = db.select({
+            id: ordensServico.id,
+            status: ordensServico.status,
+            criadoEm: ordensServico.criadoEm,
+            veiculo: {
+                placa: veiculos.placa,
+                modelo: veiculos.modelo,
+            },
+            cliente: {
+                id: clientes.id,
+                nome: clientes.nome,
+            },
+        })
+            .from(ordensServico)
+            .innerJoin(veiculos, eq(ordensServico.veiculoId, veiculos.id))
+            .innerJoin(clientes, eq(ordensServico.clienteId, clientes.id));
+
+        const buscaLimpa = busca?.trim();
+        if (!buscaLimpa) {
+            return await baseSelect.orderBy(desc(ordensServico.criadoEm));
+        }
+
+        const placaNormalizada = buscaLimpa
+            .replace(/[^A-Za-z0-9]/g, "")
+            .toUpperCase();
+
+        const filtros: SQL[] = [];
+
+        filtros.push(
+            like(veiculos.placa, `%${placaNormalizada}%`),
+            like(veiculos.modelo, `%${buscaLimpa}%`),
+            like(clientes.nome, `%${buscaLimpa}%`),
+        )
+
+        return await baseSelect.where(or(...filtros)).orderBy(desc(ordensServico.criadoEm));
+    }
+
     async buscarOrdemServicoPorUsuarioId(usuarioId: number): Promise<OrdemServicoModel[]> {
         return await db.select().from(ordensServico).where(eq(ordensServico.usuarioId, usuarioId));
     }
-    
+
     async buscarOrdemServicoPorVeiculoId(veiculoId: number): Promise<OrdemServicoModel[]> {
         return await db.select().from(ordensServico).where(eq(ordensServico.veiculoId, veiculoId));
     }

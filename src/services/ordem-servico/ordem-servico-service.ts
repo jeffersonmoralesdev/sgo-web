@@ -1,5 +1,5 @@
 import { OrdemServicoError } from "@/src/errors/ordem-servico-error";
-import { CreateOrdemServicoInput, OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
+import { CreateOrdemServicoInput, ListagemOrdemServico, OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
 import { OrdemServicoRepository } from "@/src/repositories/ordens-servico/ordens-servico-repository";
 import { VeiculoRepository } from "@/src/repositories/veiculo/veiculo-repository";
 
@@ -8,6 +8,9 @@ export class OrdemServicoService {
         private readonly ordemServicoRepository: OrdemServicoRepository,
         private readonly veiculoRepository: VeiculoRepository,
     ) { }
+    async listarOrdensServico(busca?: string): Promise<ListagemOrdemServico[]> {
+        return await this.ordemServicoRepository.listarOrdensServico(busca);
+    }
 
     async registrarOrdemServico(ordemServico: CreateOrdemServicoInput, sessaoId: number): Promise<OrdemServicoModel> {
         const veiculo = await this.veiculoRepository.buscarVeiculoPorId(ordemServico.veiculoId);

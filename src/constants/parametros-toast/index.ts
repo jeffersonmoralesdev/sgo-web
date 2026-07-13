@@ -6,5 +6,6 @@ export const PARAMETROS_TOAST = {
     "usuario-cadastrado": "Usuário cadastrado com sucesso.",
     "veiculo-atualizado": "Veículo atualizado com sucesso.",
     "veiculo-cadastrado": "Veículo cadastrado com sucesso.",
+    "ordem-servico-cadastrada": "Ordem Serviço cadastrada com sucesso."
 }
 export type ParametrosToast = keyof typeof PARAMETROS_TOAST;

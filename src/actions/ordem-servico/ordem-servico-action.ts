@@ -1,3 +1,4 @@
+'use server'
 import { OrdemServicoError } from "@/src/errors/ordem-servico-error";
 import { respostaSessaoExpiradaAction, verificarSessaoAction } from "@/src/lib/auth/auth";
 import { ordensServicoService } from "@/src/services/ordem-servico";
@@ -12,7 +13,7 @@ export async function registrarOrdemServicosAction(_prevState:ActionResponse, fo
     if (!sessao) return respostaSessaoExpiradaAction();
 
     const ordemServico = {
-        descricaoProblema:formData.get("descricao"),
+        descricaoProblema:formData.get("descricaoProblema"),
         observacao:formData.get("observacao"),
         veiculoId:formData.get("veiculoId"),
     }

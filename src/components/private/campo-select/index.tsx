@@ -17,6 +17,7 @@ type CampoSelectProps = {
     onChange: (value: string) => void;
     disabled?: boolean;
     helper?: ReactNode;
+    className?: string;
 };
 
 export function CampoSelect({
@@ -30,9 +31,10 @@ export function CampoSelect({
     onChange,
     disabled = false,
     helper,
+    className,
 }: CampoSelectProps) {
     return (
-        <div>
+        <div className={className}>
             <label
                 htmlFor={name}
                 className="mb-2 block text-sm font-semibold text-slate-900"
@@ -66,11 +68,11 @@ export function CampoSelect({
                     {error}
                 </p>
             )}
-            {!error && helper &&(
+            {!error && helper && (
                 <div className="mt-2 text-sm">
                     {helper}
                 </div>
-            ) }
+            )}
         </div>
     );
 }

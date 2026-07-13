@@ -1,12 +1,14 @@
-import { CreateOrdemServicoRepository, ListagemOrdemServico, OrdemServicoModel, UpdateStatusOrdemServico } from "@/src/model/ordens-servico/ordens-servico-model";
+import { OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
 import { OrdemServicoRepository } from "./ordens-servico-repository";
 import { db } from "@/src/db/drizzle";
 import { clientes, historicoStatusOrdemServico, ordensServico, veiculos } from "@/src/db/drizzle/schema";
 import { and, desc, eq, inArray, like, or, SQL } from "drizzle-orm";
+import { CriarOrdemServicoRepositoryDTO, ListaOrdemServicoDTO, AtualizaStatusOrdemServicoDTO } from "@/src/dtos/ordem-servico";
+
 
 export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
 
-    async listarOrdensServico(busca?: string): Promise<ListagemOrdemServico[]> {
+    async listarOrdensServico(busca?: string): Promise<ListaOrdemServicoDTO[]> {
 
         const baseSelect = db.select({
             id: ordensServico.id,
@@ -58,7 +60,7 @@ export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
         return result ?? null;
     }
 
-    async atualizarStatusOrdemServico(atualizaStatusOS: UpdateStatusOrdemServico): Promise<void> {
+    async atualizarStatusOrdemServico(atualizaStatusOS: AtualizaStatusOrdemServicoDTO): Promise<void> {
         await db.transaction(async (tx) => {
             await tx.update(ordensServico)
                 .set({ status: atualizaStatusOS.statusNovo })
@@ -95,7 +97,7 @@ export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
         return result.length > 0;
     }
 
-    async registrarOrdemServico(ordemServico: CreateOrdemServicoRepository): Promise<OrdemServicoModel> {
+    async registrarOrdemServico(ordemServico: CriarOrdemServicoRepositoryDTO): Promise<OrdemServicoModel> {
         return await db.transaction(async (tx) => {
             const novaOrdemServico = await tx
                 .insert(ordensServico)

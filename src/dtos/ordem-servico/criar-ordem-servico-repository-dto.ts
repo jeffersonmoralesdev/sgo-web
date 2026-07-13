@@ -1,13 +1,10 @@
 import { StatusOrdemServico } from "@/src/constants/status-ordem-servico";
 
-export type OrdemServicoModel = {
-    id: number;
+export type CriarOrdemServicoRepositoryDTO = {
     status: StatusOrdemServico;
     descricaoProblema: string;
-    observacao: string | null;
+    observacao?: string | null;
     valorTotal: string;
-    criadoEm: string;
-    atualizadoEm: string;
     usuarioId: number;
     clienteId: number;
     veiculoId: number;

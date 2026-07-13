@@ -1,5 +1,6 @@
+import { CriarOrdemServicoDTO, ListaOrdemServicoDTO } from "@/src/dtos/ordem-servico";
 import { OrdemServicoError } from "@/src/errors/ordem-servico-error";
-import { CreateOrdemServicoInput, ListagemOrdemServico, OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
+import { OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
 import { OrdemServicoRepository } from "@/src/repositories/ordens-servico/ordens-servico-repository";
 import { VeiculoRepository } from "@/src/repositories/veiculo/veiculo-repository";
 
@@ -8,13 +9,14 @@ export class OrdemServicoService {
         private readonly ordemServicoRepository: OrdemServicoRepository,
         private readonly veiculoRepository: VeiculoRepository,
     ) { }
-    async listarOrdensServico(busca?: string): Promise<ListagemOrdemServico[]> {
+    async listarOrdensServico(busca?: string): Promise<ListaOrdemServicoDTO[]> {
         return await this.ordemServicoRepository.listarOrdensServico(busca);
     }
 
-    async registrarOrdemServico(ordemServico: CreateOrdemServicoInput, sessaoId: number): Promise<OrdemServicoModel> {
-        const veiculo = await this.veiculoRepository.buscarVeiculoPorId(ordemServico.veiculoId);
-        if (!veiculo) throw new OrdemServicoError("Veículo não encontrado. Verifique o veículo selecionado.");
+    async registrarOrdemServico(ordemServico: CriarOrdemServicoDTO, sessaoId: number): Promise<OrdemServicoModel> {
+        const veiculo = await this.veiculoRepository.buscarVeiculoComClientePorId(ordemServico.veiculoId);
+        if (!veiculo) throw new OrdemServicoError("O veículo selecionado não foi encontrado. Atualize a página e tente novamente.");
+        if (!veiculo.cliente.ativo) throw new OrdemServicoError("Não é possível criar a ordem de serviço porque o cliente vinculado ao veículo está inativo. Ative o cadastro do cliente e tente novamente.");
 
         const ordemServicoAtiva = await this.ordemServicoRepository.existeOrdemServicoAtivaPorVeiculoId(veiculo.id);
         if (ordemServicoAtiva) throw new OrdemServicoError("Este veículo já possui uma ordem de serviço ativa. Finalize ou cancele a OS atual antes de abrir uma nova.");
@@ -26,7 +28,7 @@ export class OrdemServicoService {
             valorTotal: "0.00",
             usuarioId: sessaoId,
             veiculoId: veiculo.id,
-            clienteId: veiculo.clienteId,
+            clienteId: veiculo.cliente.id,
         });
     }
 

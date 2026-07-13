@@ -1,12 +1,15 @@
+import { AtualizarVeiculoDTO, CriarVeiculoDTO } from "@/src/dtos/veiculo";
 import { VeiculoError } from "@/src/errors/veiculo-error";
-import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/model/veiculo/veiculo-model";
+import { VeiculoModel } from "@/src/model/veiculo/veiculo-model";
 import { ClienteRepository } from "@/src/repositories/cliente/cliente-repository";
+import { OrdemServicoRepository } from "@/src/repositories/ordens-servico/ordens-servico-repository";
 import { VeiculoRepository } from "@/src/repositories/veiculo/veiculo-repository";
 
 export class VeiculoService {
     constructor(
         private readonly veiculoRepository: VeiculoRepository,
-        private readonly clienteRepository: ClienteRepository
+        private readonly clienteRepository: ClienteRepository,
+        private readonly ordedemServicoRepository: OrdemServicoRepository
     ) { }
 
     async listarVeiculos(busca?: string): Promise<VeiculoModel[]> {
@@ -21,7 +24,7 @@ export class VeiculoService {
         return await this.veiculoRepository.buscarVeiculoPorPlaca(placa);
     };
 
-    async registrarVeiculo(veiculo: CreateVeiculoInput): Promise<VeiculoModel> {
+    async registrarVeiculo(veiculo: CriarVeiculoDTO): Promise<VeiculoModel> {
 
         const cliente = await this.clienteRepository.buscarClientePorId(veiculo.clienteId);
 
@@ -37,7 +40,7 @@ export class VeiculoService {
         return veiculoCadastrado
     };
 
-    async atualizarVeiculo(id: number, veiculo: UpdateVeiculoInput): Promise<VeiculoModel> {
+    async atualizarVeiculo(id: number, veiculo: AtualizarVeiculoDTO): Promise<VeiculoModel> {
 
 
         const veiculoExistente = await this.buscarVeiculoPorId(id);
@@ -64,9 +67,8 @@ export class VeiculoService {
         const veiculoExistente = await this.buscarVeiculoPorId(id);
         if (!veiculoExistente) throw new VeiculoError("Veículo não encontrado");
 
-        //PENDENCIA
-        /*const ordemSevicoVinculado = await this.ordemServicoRepository.buscarOrdenServicoPorVeiculoId(veiculoExistente.id);
-        if (ordemSevicoVinculado.length > 0) throw new VeiculoError("Não é possível excluir este veículo, ele esta vinculado a uma ou mais ordens de serviços.");*/
+        const ordemSevicoVinculado = await this.ordedemServicoRepository.buscarOrdemServicoPorVeiculoId(veiculoExistente.id);
+        if (ordemSevicoVinculado.length > 0) throw new VeiculoError("Não é possível excluir este veículo, ele esta vinculado a uma ou mais ordens de serviços.");
 
         await this.veiculoRepository.deletarVeiculo(veiculoExistente.id);
         return true

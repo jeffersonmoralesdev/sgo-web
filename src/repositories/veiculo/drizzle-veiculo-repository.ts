@@ -1,10 +1,32 @@
-import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/model/veiculo/veiculo-model";
+import { VeiculoModel } from "@/src/model/veiculo/veiculo-model";
 import { VeiculoRepository } from "./veiculo-repository";
 import { db } from "@/src/db/drizzle";
 import { veiculos } from "@/src/db/drizzle/schema";
 import { asc, count, desc, eq, like, or, SQL } from "drizzle-orm";
+import { AtualizarVeiculoDTO, CriarVeiculoDTO, VeiculoComClienteDTO } from "@/src/dtos/veiculo";
 
 export class DrizzleVeiculoRepository implements VeiculoRepository {
+
+    async buscarVeiculoComClientePorId(id: number): Promise<VeiculoComClienteDTO | null> {
+        const veiculo = await db.query.veiculos.findFirst({
+            where: (veiculos, { eq }) => eq(veiculos.id, id),
+            columns: {
+                id: true,
+                placa: true,
+                modelo: true,
+            },
+            with: {
+                cliente: {
+                    columns: {
+                        id: true,
+                        nome: true,
+                        ativo: true,
+                    }
+                }
+            }
+        })
+        return veiculo ?? null
+    }
 
     async listarVeiculos(busca?: string): Promise<VeiculoModel[]> {
 
@@ -52,7 +74,7 @@ export class DrizzleVeiculoRepository implements VeiculoRepository {
         return await db.select().from(veiculos).where(eq(veiculos.clienteId, clienteId))
     }
 
-    async registrarVeiculo(veiculo: CreateVeiculoInput): Promise<VeiculoModel> {
+    async registrarVeiculo(veiculo: CriarVeiculoDTO): Promise<VeiculoModel> {
         const result = await db.insert(veiculos).values(veiculo).$returningId();
 
         const id = result[0]?.id;
@@ -65,7 +87,7 @@ export class DrizzleVeiculoRepository implements VeiculoRepository {
         return veiculoCriado;
     }
 
-    async atualizarVeiculo(id: number, veiculo: UpdateVeiculoInput): Promise<VeiculoModel | null> {
+    async atualizarVeiculo(id: number, veiculo: AtualizarVeiculoDTO): Promise<VeiculoModel | null> {
         await db.update(veiculos).set(veiculo).where(eq(veiculos.id, id));
         return await this.buscarVeiculoPorId(id);
     }

@@ -1,7 +1,7 @@
 'use server'
 import { VeiculoError } from "@/src/errors/veiculo-error";
 import { respostaSessaoExpiradaAction, verificarSessaoAction } from "@/src/lib/auth/auth";
-import { CreateVeiculoInput, UpdateVeiculoInput, VeiculoModel } from "@/src/model/veiculo/veiculo-model";
+import { VeiculoModel } from "@/src/model/veiculo/veiculo-model";
 import { veiculoService } from "@/src/services/veiculo";
 import { ActionResponse } from "@/src/types/action-response";
 import { createVeiculoSchema, idVeiculoSchema, updateVeiculoSchema } from "@/src/validator/veiculo/veiculo-validator";

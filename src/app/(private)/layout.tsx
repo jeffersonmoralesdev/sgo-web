@@ -13,14 +13,22 @@ export default async function PrivateLayout({
     if (!sessao) redirect("/login");
 
     return (
-        <div className="min-h-screen bg-slate-100 text-slate-950 xl:flex">
+        <div className="h-dvh bg-slate-100 text-slate-950 xl:flex">
             <Sidebar />
 
-            <div className="min-w-0 flex-1">
-                <Header nome={sessao.nome} perfil={sessao.perfil}/>
 
-                <main className="p-4 lg:p-8">{children}</main>
+            <div className=" min-h-0 min-w-0 flex flex-col flex-1 ">
+
+
+                <Header nome={sessao.nome} perfil={sessao.perfil} />
+
+
+
+                <main className="p-4 lg:px-6 lg:py-5 min-h-0 flex-1">{children}</main>
             </div>
+
+
+
         </div>
     );
 }

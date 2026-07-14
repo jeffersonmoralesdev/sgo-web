@@ -1,7 +1,7 @@
-import { StatusOrdemServico } from "@/src/constants/status-ordem-servico";
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
 
 export type CriarOrdemServicoRepositoryDTO = {
-    status: StatusOrdemServico;
+    status: StatusOrdemServicoEnum;
     descricaoProblema: string;
     observacao?: string | null;
     valorTotal: string;

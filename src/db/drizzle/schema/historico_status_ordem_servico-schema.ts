@@ -1,10 +1,12 @@
 import { foreignKey, index, int, mysqlEnum, mysqlTable, primaryKey, text, timestamp } from "drizzle-orm/mysql-core";
 import {usuarios} from './usuarios-schema'
 import {ordensServico} from './ordens_servico-schema'
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
+
 export const historicoStatusOrdemServico = mysqlTable("historico_status_ordem_servico", {
     id: int().primaryKey().autoincrement().notNull(),
-    statusAnterior: mysqlEnum("status_anterior", ['AGUARDANDO_AVALIACAO','EM_AVALIACAO','AGUARDANDO_APROVACAO','APROVADA','REPROVADA','EM_EXECUCAO','PRONTA_PARA_RETIRADA','ENTREGUE','CANCELADA']),
-    novoStatus: mysqlEnum("novo_status", ['AGUARDANDO_AVALIACAO','EM_AVALIACAO','AGUARDANDO_APROVACAO','APROVADA','REPROVADA','EM_EXECUCAO','PRONTA_PARA_RETIRADA','ENTREGUE','CANCELADA']).notNull(),
+    statusAnterior: mysqlEnum("status_anterior", StatusOrdemServicoEnum),
+    novoStatus: mysqlEnum("novo_status", StatusOrdemServicoEnum).notNull(),
     observacao: text(),
     criadoEm: timestamp("criado_em", { mode: 'string' }).defaultNow().notNull(),
     ordemServicoId: int("ordem_servico_id").notNull(),

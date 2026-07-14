@@ -4,6 +4,7 @@ import { db } from "@/src/db/drizzle";
 import { clientes, historicoStatusOrdemServico, ordensServico, veiculos } from "@/src/db/drizzle/schema";
 import { and, desc, eq, inArray, like, or, SQL } from "drizzle-orm";
 import { CriarOrdemServicoRepositoryDTO, ListaOrdemServicoDTO, AtualizaStatusOrdemServicoDTO } from "@/src/dtos/ordem-servico";
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
 
 
 export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
@@ -84,13 +85,14 @@ export class DrizzleOrdemServicoRepository implements OrdemServicoRepository {
             .where(
                 and(
                     eq(ordensServico.veiculoId, veiculoId),
-                    inArray(ordensServico.status, [
-                        "AGUARDANDO_AVALIACAO",
-                        "EM_AVALIACAO",
-                        "AGUARDANDO_APROVACAO",
-                        "APROVADA",
-                        "EM_EXECUCAO",
-                        "PRONTA_PARA_RETIRADA"
+                    inArray(ordensServico.status , [
+                        StatusOrdemServicoEnum.AGUARDANDO_AVALIACAO,
+                        StatusOrdemServicoEnum.EM_AVALIACAO,
+                        StatusOrdemServicoEnum.AGUARDANDO_APROVACAO,
+                        StatusOrdemServicoEnum.REPROVADA,
+                        StatusOrdemServicoEnum.APROVADA,
+                        StatusOrdemServicoEnum.EM_EXECUCAO,
+                        StatusOrdemServicoEnum.PRONTA_PARA_RETIRADA,
                     ])
                 )
             );

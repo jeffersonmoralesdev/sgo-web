@@ -1,8 +1,8 @@
-import { StatusOrdemServico } from "@/src/constants/status-ordem-servico";
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
 
 export type ListaOrdemServicoDTO = {
     id: number;
-    status: StatusOrdemServico;
+    status: StatusOrdemServicoEnum;
     criadoEm: string;
     veiculo: {
         placa: string;

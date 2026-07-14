@@ -1,9 +1,10 @@
-import { StatusOrdemServico } from "@/src/constants/status-ordem-servico";
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
+
 
 export type AtualizaStatusOrdemServicoDTO = {
     id: number;
     usuarioId: number;
-    statusAnterior: StatusOrdemServico;
-    statusNovo: StatusOrdemServico;
+    statusAnterior: StatusOrdemServicoEnum;
+    statusNovo: StatusOrdemServicoEnum;
     observacao?: string | null;
 }

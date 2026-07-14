@@ -1,12 +1,12 @@
 'use client'
 import { ListaContagem } from "../../lista-contagem";
 import { FiltroLista } from "../../filtro-lista";
-import { ListagemOrdemServico } from "@/src/model/ordens-servico/ordens-servico-model";
 import { LinhaTabelaOrdemServico } from "../linha-tabela-ordem-servico";
+import { ListaOrdemServicoDTO } from "@/src/dtos/ordem-servico";
 
 
 type TabelaOrdemServicoProps = {
-    ordensServico: ListagemOrdemServico[];
+    ordensServico: ListaOrdemServicoDTO[];
     paramsFiltro?: string;
 };
 

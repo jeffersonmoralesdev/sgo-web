@@ -1,9 +1,11 @@
 import { decimal, foreignKey, index, int, mysqlEnum, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 import {ordensServico} from './ordens_servico-schema'
+import { TipoItemOrdemServicoEnum } from "@/src/enums/ordem-servico-item";
+
 
 export const ordensServicoItens = mysqlTable("ordens_servico_itens", {
     id: int().primaryKey().autoincrement().notNull(),
-    tipo: mysqlEnum(['PECA','SERVICO','MAO_DE_OBRA']).notNull(),
+    tipo: mysqlEnum(TipoItemOrdemServicoEnum).notNull(),
     descricao: varchar({ length: 255 }).notNull(),
     quantidade: decimal({ precision: 10, scale: 3 }).notNull(),
     valorUnitario: decimal("valor_unitario", { precision: 10, scale: 2 }).notNull(),

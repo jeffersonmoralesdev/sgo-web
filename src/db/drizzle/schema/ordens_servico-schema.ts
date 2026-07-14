@@ -2,10 +2,11 @@ import { decimal, foreignKey, index, int, mysqlEnum, mysqlTable, text, timestamp
 import {usuarios} from'./usuarios-schema';
 import {clientes} from './clientes-schema';
 import {veiculos} from './veiculos-schema';
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
 
 export const ordensServico = mysqlTable("ordens_servico", {
     id: int().primaryKey().autoincrement().notNull(),
-    status: mysqlEnum(['AGUARDANDO_AVALIACAO','EM_AVALIACAO','AGUARDANDO_APROVACAO','APROVADA','REPROVADA','EM_EXECUCAO','PRONTA_PARA_RETIRADA','ENTREGUE','CANCELADA']).notNull(),
+    status: mysqlEnum(StatusOrdemServicoEnum).notNull(),
     descricaoProblema: text("descricao_problema").notNull(),
     observacao: text(),
     valorTotal: decimal("valor_total", { precision: 10, scale: 2 }).default('0.00').notNull(),

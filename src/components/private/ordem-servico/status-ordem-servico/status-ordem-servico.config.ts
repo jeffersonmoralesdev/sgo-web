@@ -1,6 +1,7 @@
-import { StatusOrdemServico } from "@/src/constants/status-ordem-servico";
+import { StatusOrdemServicoEnum } from "@/src/enums/ordem-servico";
 
-const statusFormatado: Record<StatusOrdemServico, string> = {
+
+const statusFormatado: Record<StatusOrdemServicoEnum, string> = {
     AGUARDANDO_AVALIACAO: "Aguardando avaliação",
     EM_AVALIACAO: "Em avaliação",
     AGUARDANDO_APROVACAO: "Aguardando aprovação",
@@ -12,7 +13,7 @@ const statusFormatado: Record<StatusOrdemServico, string> = {
     CANCELADA: "Cancelada",
 };
 
-const statusClasse: Record<StatusOrdemServico, string> = {
+const statusClasse: Record<StatusOrdemServicoEnum, string> = {
     AGUARDANDO_AVALIACAO: "border-amber-200 bg-amber-50 text-amber-700",
     EM_AVALIACAO: "border-blue-200 bg-blue-50 text-blue-700",
     AGUARDANDO_APROVACAO: "border-yellow-200 bg-yellow-50 text-yellow-700",
@@ -24,10 +25,10 @@ const statusClasse: Record<StatusOrdemServico, string> = {
     CANCELADA: "border-slate-200 bg-slate-50 text-slate-600",
 };
 
-export function formatarStatusOrdemServico(status: StatusOrdemServico) {
+export function formatarStatusOrdemServico(status: StatusOrdemServicoEnum) {
     return statusFormatado[status];
 }
 
-export function obterClasseStatusOrdemServico(status: StatusOrdemServico) {
+export function obterClasseStatusOrdemServico(status: StatusOrdemServicoEnum) {
     return statusClasse[status];
 }

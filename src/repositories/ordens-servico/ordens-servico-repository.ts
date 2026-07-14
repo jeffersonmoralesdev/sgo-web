@@ -1,6 +1,5 @@
 
 import { CriarOrdemServicoRepositoryDTO, ListaOrdemServicoDTO, AtualizaStatusOrdemServicoDTO } from "@/src/dtos/ordem-servico";
-
 import { OrdemServicoModel } from "@/src/model/ordens-servico/ordens-servico-model";
 
 export interface OrdemServicoRepository {

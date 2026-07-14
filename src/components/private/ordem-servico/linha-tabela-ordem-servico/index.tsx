@@ -1,12 +1,13 @@
 import { ClipboardList, Eye } from "lucide-react";
-import { ListagemOrdemServico } from "@/src/model/ordens-servico/ordens-servico-model";
+
 import { formatarStatusOrdemServico, obterClasseStatusOrdemServico } from "@/src/components/private/ordem-servico/status-ordem-servico/status-ordem-servico.config";
 import { formataDataPadraoBrasil } from "@/src/utils/formatar-data";
 import { aplicarMascaraPlaca } from "@/src/utils/mascara";
 import Link from "next/link";
+import { ListaOrdemServicoDTO } from "@/src/dtos/ordem-servico";
 
 type LinhaOrdemServicoProps = {
-    ordemServico: ListagemOrdemServico;
+    ordemServico: ListaOrdemServicoDTO;
 };
 
 export function LinhaTabelaOrdemServico({ ordemServico }: LinhaOrdemServicoProps) {
